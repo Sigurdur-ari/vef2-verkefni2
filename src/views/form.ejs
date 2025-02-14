@@ -2,20 +2,30 @@
 
 <form method="post" action="/form">
 
-  <label for="name">Heiti flokks:</label>
-  <input type="text" id="name" name="name">
-  <input type="number" id="name" name="number">
-  <label>rétt svar #1: <input type="radio" id="name" name="rett_svar" value="1"></label>
-  <label>rétt svar #2: <input type="radio" id="name" name="rett_svar" value="1"></label>
-  <label>rétt svar #3: <input type="radio" id="name" name="rett_svar" value="1"></label>
+  <label for="question">Spurning:</label>
+  <input type="text" id="name" name="question">
+  <label>Svar #1: <input type="text" name="answer1"></label>
+  <label>Svar #2: <input type="text" name="answer2"></label>
+  <label>Svar #3: <input type="text" name="answer3"></label>
+  <label>Svar #4: <input type="text" name="answer4"></label>
 
-  <input type="checkbox" id="name" name="checkbox">
-  <select>
-    <option>foo</option>
-    <option value="foobar">bar</option>
-  </select>
-  <textarea name="text"></textarea>
-  <button type="submit">Búa til flokk</button>
+  <label for="correct">Veldu hvaða svar er rétt:</label>
+  <div name="correct">
+    <label for="corr1">1<input type="radio" id="corr1" name="rett_svar" value="1"></label>
+    <label for="corr2">2<input type="radio" id="corr2" name="rett_svar" value="2"></label>
+    <label for="corr3">3<input type="radio" id="corr3" name="rett_svar" value="3"></label>
+    <label for="corr4">4<input type="radio" id="corr4" name="rett_svar" value="4"></label>
+  </div>
+
+  <label for="category"> Veldu flokkinn sem spurningin tilheyrir
+    <select name="category">
+      <option value="1">HTML</option>
+      <option value="2">CSS</option>
+      <option value="3">JavaScript</option>
+    </select>
+  </label>
+
+  <button type="submit">Búa til spurningu</button>
 </form>
 
 <%- include('footer') -%>

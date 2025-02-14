@@ -4,6 +4,7 @@ import { router } from './routes.js';
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 const viewsPath = new URL('./views', import.meta.url).pathname;
 app.set('views', viewsPath);
