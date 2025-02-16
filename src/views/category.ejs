@@ -1,5 +1,18 @@
 <%- include('header') -%>
 
-spurnigaflokkur!
+    <% for (const question of questions) { %>
+        <fieldset>
+            <legend><%=question.content%></legend>
+            <%for (const answer of answers) {%>
+                <% if(Number(answer.qid) === Number(question.questionid)) { %>
+                    <label class='<%=answer.correct ? 'correct' : 'false'%>'><input type='radio' name='<%=question.content%>' value='<%=answer.content%>'><%=answer.content%></label>
+                <%}%>
+            <%}%>
+            <div class='bottom'>
+                <button type='button'>Athuga svar?</button>
+                <p class='answer-box'></p>
+            </div>
+        </fieldset>
+    <% } %>
 
 <%- include('footer') -%>

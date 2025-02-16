@@ -91,6 +91,39 @@ export class Database {
       client.release();
     }
   }
+
+  /**
+   * Inserts a question into the database
+   * @param {string} question 
+   * @param {string} catId 
+   * @returns 
+   */
+  async insertQuestion(question, catId){
+    const q = `INSERT INTO questions (categoryId, content) VALUES ($1, $2)`;
+  
+    const result = await this.query(q, [catId, question]);
+  
+    if(!result || result.rowCount !== 1){
+      this.logger.warn('Unable to insert question', {result, question});
+      return false;
+    }
+    return true;
+  }
+  /**
+   * Inserts answers to a question into the database
+   * @param {Array} answers 
+   */
+  async insertAnswers(answers, qId){
+    for(const answer of answers){
+      const q = `INSERT INTO answers (qId, content, correct) VALUES ($1, $2, $3)`;
+
+      const result = await this.query(q, [qId, answer.answer, answer.correct]);
+
+      if(!result || result.rowCount !== 1){
+        this.logger.warn('Unable to insert answer ', answer, " for questionId = ", qId);
+      }
+    }
+  }
 }
 
 /** @type {Database | null} */
