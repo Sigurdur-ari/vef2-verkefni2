@@ -73,13 +73,10 @@ router.post('/form', async (req, res) => {
     return
    }
   //HÉR ÞARF AÐ GERA MISMUNADI INSERT FYRIR SPURNINGAR OG SVO SVÖR
-  await db.insertQuestion(question, category);
+  const qId = await db.insertQuestion(question, category);
+  console.log("question ID = ", qId);
 
-  const questionIdRes = await db.query('SELECT questionId FROM questions WHERE content = $1', [question]);
-  const questionId = questionIdRes?.rows ?? [];
-  console.log("question ID = ", questionId);
-
-  await db.insertAnswers(questionData.answers, questionId[0].questionid);
+  await db.insertAnswers(questionData.answers, qId);
 
 
 

@@ -1,11 +1,16 @@
 import { readFile } from 'node:fs/promises';
-import { Database } from './lib/db.client.js';
+import { Database } from './lib/db.client.js'; 
 import { environment } from './lib/environment.js';
 import { logger as loggerSingleton } from './lib/logger.js';
+import { parseIndexFile, parseQuestionCategory } from './lib/parse.js';
+import { readFileMy } from './lib/file.js';
+import { join } from 'node:path';
 
 const SCHEMA_FILE = './sql/schema.sql';
 const DROP_SCHEMA_FILE = './sql/drop.sql';
 const INSERT_FILE = './sql/insert.sql';
+
+const INPUT_DIR = './data';
 
 /**
  * @param {Database} db
@@ -41,6 +46,74 @@ async function setupDbFromFiles(db, logger) {
   return true;
 }
 
+async function readAndParseFile(fileItem) {
+  const content = await readFileMy(join(INPUT_DIR, fileItem.file));
+
+  if (!content) {
+    console.error('unable to read file', fileItem);
+    return null;
+  }
+  const parsed = parseQuestionCategory(content);
+
+  if (!parsed) {
+    console.error('unable to parse file', fileItem);
+    return null;
+  }
+
+  parsed.file = fileItem.file;
+
+  return parsed;
+}
+
+
+async function dataFromFiles(db, logger){
+  console.group('reading and parsing index file');
+  const indexFile = await readFileMy(join(INPUT_DIR, 'index.json'), 'utf8');
+
+  if (!indexFile) {
+    logger.error('unable to read index file');
+    return false;
+  }
+  const index = parseIndexFile(indexFile);
+  logger.info('index file length:', index.length);
+  console.groupEnd();
+
+  // 3.
+  let questionCategoryFiles = [];
+  for await (const { title, file } of index) {
+    console.group('processing file', file);
+    const result = await readAndParseFile({ title, file });
+
+    if (result) {
+      questionCategoryFiles.push(result);
+    }
+    console.groupEnd();
+  }
+
+  logger.info("prufu ouutput dæmi ", questionCategoryFiles[0].questions[0].answers)
+
+  //setja inn gögn úr ./data
+  for(let i = 0; i < questionCategoryFiles.length; i++){
+    const questions = questionCategoryFiles[i].questions;
+    for(let j = 0; j < questions.length; j++){
+      const qId = await db.insertQuestion(questions[j].question, i+1)
+      if(qId > 0){
+        logger.info("question with id ", qId, " inserted to the database for cat ", i+1);
+      } else {
+        logger.error("Question with id", qId, " Failed to insert for cat ", i+1)
+        return false;
+      }
+      if(await db.insertAnswers(questions[j].answers, qId)){
+        logger.info("answers for question with id ", qId, "were inserted");
+      }else {
+        logger.error("answers for question with id ", qId, " failed to insert")
+        return false;
+      }
+    }
+  }
+  return true
+}
+
 async function create() {
   const logger = loggerSingleton;
   const env = environment(process.env, logger);
@@ -58,6 +131,19 @@ async function create() {
 
   if (!resultFromFileSetup) {
     logger.info('error setting up database from files');
+    process.exit(1);
+  }
+
+  let resultFromReadingData;
+  try {
+    resultFromReadingData = await dataFromFiles(db, logger);
+  } catch (e) {
+    // falls through
+    logger.error(e);
+  }
+
+  if (!resultFromReadingData) {
+    logger.info('error reading data from files');
     process.exit(1);
   }
 

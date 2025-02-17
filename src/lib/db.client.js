@@ -99,15 +99,15 @@ export class Database {
    * @returns 
    */
   async insertQuestion(question, catId){
-    const q = `INSERT INTO questions (categoryId, content) VALUES ($1, $2)`;
+    const q = `INSERT INTO questions (categoryId, content) VALUES ($1, $2) RETURNING questionId`;
   
     const result = await this.query(q, [catId, question]);
   
     if(!result || result.rowCount !== 1){
       this.logger.warn('Unable to insert question', {result, question});
-      return false;
+      return -1;
     }
-    return true;
+    return result?.rows[0]?.questionid;
   }
   /**
    * Inserts answers to a question into the database
@@ -121,8 +121,10 @@ export class Database {
 
       if(!result || result.rowCount !== 1){
         this.logger.warn('Unable to insert answer ', answer, " for questionId = ", qId);
+        return false;
       }
     }
+    return true;
   }
 }
 

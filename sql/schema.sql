@@ -7,14 +7,14 @@ CREATE TABLE IF NOT EXISTS public.categories(
 CREATE TABLE IF NOT EXISTS public.questions(
   questionId serial primary key,
   categoryId int not null,
-  content varchar(200),
+  content varchar(800),
   foreign key (categoryId) references categories(id)
 );
 
 CREATE TABLE IF NOT EXISTS public.answers(
   answerId serial primary key,
   qId int,
-  content varchar(200),
+  content varchar(800),
   correct boolean default false,
   foreign key (qId) references questions(questionId)
 );
