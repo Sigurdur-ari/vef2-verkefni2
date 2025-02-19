@@ -1,0 +1,152 @@
+
+html {
+    box-sizing: border-box;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+  }
+
+  :root{
+    --spacing: 1rem;
+    --large-spacing: 2.5rem;
+    --max-width: 56rem;
+    --font-size: 16px;
+    --font-family:-system-ui, -apple-system, blinkmacsystemfont, 'Segoe UI',
+    roboto, oxygen, ubuntu, cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    --bg-color: mediumslateblue;
+    --text-color: papayawhip;
+  }
+
+  body{
+    min-height: 100vh;
+    font-family: var(--font-family);
+    font-size: var(--font-size);
+    display: flex;
+    justify-content: center;
+    background-color: var(--bg-color);
+  }
+
+  main{
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    width: 100%;
+    max-width: var(--max-width);
+    color: var(--text-color);
+    background-color: var(--bg-color);
+  }
+
+  h1,
+  p{
+    margin-bottom: var(--spacing);
+  }
+
+  p{
+    padding: var(--spacing);
+    text-align: center;
+  }
+
+  h1{
+    padding: var(--spacing);
+    font-size: 3rem;
+    margin-top: 2rem;
+    text-align: center;
+    
+  }
+
+  ul{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing);
+
+  }
+
+  li{
+    list-style-type: none;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing);
+  }
+
+  li>a{
+    text-decoration: none;
+    font-weight: bold;
+    color: var(--bg-color);
+    background-color: var(--text-color);
+    padding: 2rem;
+    border-radius: 20px;
+  }
+
+  form{
+    display: flex;
+    flex-direction: column;
+    gap: var(--large-spacing);
+    max-width: var(--max-width);
+  }
+
+  fieldset{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing);
+    width: 100%;
+    padding: var(--spacing);
+    border-width: 10px;
+    border-color: var(--text-color);
+    border-style: solid;
+    border-radius: 10px;
+  }
+
+  legend{
+    padding: var(--spacing);
+    margin-bottom: var(--spacing);
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  button{
+    width: 100px;
+    height: 70px;
+    padding: var(--spacing);
+  }
+
+  .answer-box{
+    background-color: var(--text-color);
+    width: 150px;
+    height: 70px;
+    text-align: center;
+  }
+
+  .bottom{
+    display: flex;
+    gap: var(--spacing);
+    justify-content: center;
+  }
+
+  header{
+    margin-bottom: 2rem;
+  }
+
+  .navbar{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+
+    justify-content: center;
+  }
+
+  .answers{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  .submit-button{
+    margin-bottom: 2rem;
+  }

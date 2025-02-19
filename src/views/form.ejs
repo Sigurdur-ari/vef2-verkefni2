@@ -3,14 +3,14 @@
 <form method="post" action="/form">
 
   <label for="question">Spurning:</label>
-  <input type="text" id="name" name="question">
+  <input type="text" id="question" name="question">
   <label>Svar #1: <input type="text" name="answer1"></label>
   <label>Svar #2: <input type="text" name="answer2"></label>
   <label>Svar #3: <input type="text" name="answer3"></label>
   <label>Svar #4: <input type="text" name="answer4"></label>
 
   <label for="correct">Veldu hvaða svar er rétt:</label>
-  <div name="correct">
+  <div name="correct" class="answers">
     <label for="corr1">1<input type="radio" id="corr1" name="rett_svar" value="1"></label>
     <label for="corr2">2<input type="radio" id="corr2" name="rett_svar" value="2"></label>
     <label for="corr3">3<input type="radio" id="corr3" name="rett_svar" value="3"></label>
@@ -25,7 +25,7 @@
     </select>
   </label>
 
-  <button type="submit">Búa til spurningu</button>
+  <button type="submit" class="submit-button">Búa til spurningu</button>
 </form>
 
 <%- include('footer') -%>
