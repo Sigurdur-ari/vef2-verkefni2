@@ -59,6 +59,10 @@ html {
     
   }
 
+  h3{
+    text-align: center;
+  }
+
   ul{
     display: flex;
     flex-direction: column;
@@ -149,4 +153,19 @@ html {
 
   .submit-button{
     margin-bottom: 2rem;
+  }
+
+  .errors{
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+
+    display: flex;
+    flex-direction: column;
+
+    border-style: solid;
+    border-color: var(--text-color);
+    border-width: 5px;
+    border-radius: 5px;
+
+
   }

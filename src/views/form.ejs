@@ -1,5 +1,18 @@
 <%- include('header') -%>
 
+<% if (locals.errors?.length) { %>
+  <div class="errors">
+  <h3>Ekki tókst að bæta við spurningu</h3>
+  <p>Eftirfarandi villur komu upp:</p>
+  <ul>
+    <% locals.errors.forEach((error) => { %>
+      <li><label for="<%= error.param %>"><%= error.msg %></label></li>
+    <% }); %>
+  </ul>
+  <p>Vinsamlegast reyndu aftur!</p>
+  </div>
+<% } %>
+
 <form method="post" action="/form">
 
   <label for="question">Spurning:</label>
