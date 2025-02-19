@@ -20,25 +20,32 @@ router.get('/', async (req, res) => {
   res.render('index', { title: 'Forsíða', categories });
 });
 
-router.get('/spurningar/:category', async (req, res) => {
-  const title = req.params.category;
 
-  const questionsResult = await getDatabase()?.query('SELECT * FROM questions WHERE categoryId = $1', [title]);
+
+router.get('/spurningar/:category', async (req, res) => {
+  const catId = req.params.category;
+
+  //sækja spurningar úr flokk
+  const questionsResult = await getDatabase()?.query('SELECT * FROM questions WHERE categoryId = $1', [catId]);
 
   const questions = questionsResult?.rows ?? [];
 
+  //sækja öll svör
   const answersResult = await getDatabase()?.query('SELECT * FROM answers');
 
   const answers = answersResult?.rows ?? [];
 
-  console.log(questions);
-  console.log(answers);
-  res.render('category', { title, questions, answers});
+  //Renderar view sem filterar svör eftir spurningum og birtir. 
+  res.render('category', { catId, questions, answers});
 });
+
+
 
 router.get('/form', (req, res) => {
   res.render('form', { title: 'Búa til spurningu fyrir flokk' });
 });
+
+
 
 router.post('/form', 
   createQuestionValidationMiddleware(),
@@ -46,12 +53,14 @@ router.post('/form',
   xssSanitizationMiddleware(),
   async (req, res) => {
 
+    //athuga með villur í validation og rendera form aftur með upplýsingum um villur. 
+    //mætti bæta við hér að reitir sem búið er að fylla inn í hreinsast ekki. 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).render('form', { errors: errors.array() });
     }
 
-
+    //Búa til hlut sem inniheldur allar upplýsingar frá notanda, hér er búið að sanitizea. 
     const { question, answer1, answer2, answer3, answer4, rett_svar, category } = req.body;
 
     const questionData = {
@@ -64,19 +73,6 @@ router.post('/form',
       ],
       category: category
     }
-
-
-
-    // Hér þarf að setja upp validation, hvað ef name er tómt? hvað ef það er allt handritið að BEE MOVIE?
-    // Hvað ef það er SQL INJECTION? HVAÐ EF ÞAÐ ER EITTHVAÐ ANNAÐ HRÆÐILEGT?!?!?!?!?!
-    // TODO VALIDATION OG HUGA AÐ ÖRYGGI
-
-    // Ef validation klikkar, senda skilaboð um það á notanda
-
-
-
-    // Ef allt OK, búa til í gagnagrunn.
-    
     
     const env = environment(process.env, logger);
     if (!env) {
@@ -88,13 +84,12 @@ router.post('/form',
       logger.warn("Connection to database failed");
       return
     }
+    
     //MISMUNADI INSERT FYRIR SPURNINGAR OG SVO SVÖR
     const qId = await db.insertQuestion(question, category);
     console.log("question ID = ", qId);
 
     await db.insertAnswers(questionData.answers, qId);
 
-
-
-    res.render('form-created', { title: 'Spurning búin til' });
+    res.render('form-created', { title: 'Spurning búin til og bætt við flokk ', category });
 });

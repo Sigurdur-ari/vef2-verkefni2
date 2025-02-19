@@ -65,7 +65,7 @@ async function readAndParseFile(fileItem) {
   return parsed;
 }
 
-
+//Les parsar og setur inn gögn úr ./data möppu. 
 async function dataFromFiles(db, logger){
   console.group('reading and parsing index file');
   const indexFile = await readFileMy(join(INPUT_DIR, 'index.json'), 'utf8');
@@ -78,7 +78,7 @@ async function dataFromFiles(db, logger){
   logger.info('index file length:', index.length);
   console.groupEnd();
 
-  // 3.
+  //Lesa spurningar úr json skrám úr ./data
   let questionCategoryFiles = [];
   for await (const { title, file } of index) {
     console.group('processing file', file);
@@ -89,8 +89,6 @@ async function dataFromFiles(db, logger){
     }
     console.groupEnd();
   }
-
-  logger.info("prufu ouutput dæmi ", questionCategoryFiles[0].questions[0].answers)
 
   //setja inn gögn úr ./data
   for(let i = 0; i < questionCategoryFiles.length; i++){
@@ -114,6 +112,7 @@ async function dataFromFiles(db, logger){
   return true
 }
 
+//Býr til gagnagrunninn og lætur vita ef það verða villur
 async function create() {
   const logger = loggerSingleton;
   const env = environment(process.env, logger);
@@ -138,7 +137,6 @@ async function create() {
   try {
     resultFromReadingData = await dataFromFiles(db, logger);
   } catch (e) {
-    // falls through
     logger.error(e);
   }
 
