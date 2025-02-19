@@ -15,7 +15,6 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/spurningar/:category', async (req, res) => {
-  // TEMP EKKI READY FYRIR PRODUCTION
   const title = req.params.category;
 
   const questionsResult = await getDatabase()?.query('SELECT * FROM questions WHERE categoryId = $1', [title]);
@@ -72,7 +71,7 @@ router.post('/form', async (req, res) => {
     logger.warn("Connection to database failed");
     return
    }
-  //HÉR ÞARF AÐ GERA MISMUNADI INSERT FYRIR SPURNINGAR OG SVO SVÖR
+  //MISMUNADI INSERT FYRIR SPURNINGAR OG SVO SVÖR
   const qId = await db.insertQuestion(question, category);
   console.log("question ID = ", qId);
 
