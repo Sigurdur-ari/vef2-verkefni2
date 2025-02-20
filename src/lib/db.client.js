@@ -1,3 +1,6 @@
+//Skrá fengin að hluta til frá sýnilausn Óla á v2, 
+// insertQuestion og insertAnswers er mín eigin smíð. 
+
 import pg from 'pg';
 import { environment } from './environment.js';
 import { logger as loggerSingleton } from './logger.js';

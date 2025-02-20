@@ -16,7 +16,6 @@ router.get('/', async (req, res) => {
 
   const categories = result?.rows ?? [];
 
-  console.log(categories);
   res.render('index', { title: 'Forsíða', categories });
 });
 
@@ -84,7 +83,7 @@ router.post('/form',
       logger.warn("Connection to database failed");
       return
     }
-    
+
     //MISMUNADI INSERT FYRIR SPURNINGAR OG SVO SVÖR
     const qId = await db.insertQuestion(question, category);
     console.log("question ID = ", qId);

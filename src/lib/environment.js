@@ -1,3 +1,5 @@
+//Skrá fengin úr sýnilausn Óla á v2 2024. Það sem tengist notendum hefur verið fjarlægt. 
+
 /** Default port if none provided. */
 const DEFAULT_PORT = 3000;
 

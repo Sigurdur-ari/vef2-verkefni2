@@ -1,3 +1,4 @@
+//klassi fenginn úr því sem Óli tók úr sýnilausn á v2 í fyrra
 export class Logger {
   constructor(silent = false) {
     this.silent = silent;

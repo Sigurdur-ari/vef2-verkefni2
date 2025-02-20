@@ -1,6 +1,6 @@
 import { readFile as fsReadFile} from 'node:fs/promises';
 
-//Fall fengið úr sýnnilausn Óla á verkefni 1
+//Fall fengið úr sýnilausn Óla á verkefni 1
 
 /**
  * Read a file and return its content.
