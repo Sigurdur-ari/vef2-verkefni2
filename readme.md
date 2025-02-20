@@ -22,8 +22,6 @@ svo þarf að keyra eftirfarandi skipanir:
 ````
 npm install
 
-npm run setup
-
 npm run start
 ````
 
