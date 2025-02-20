@@ -5,6 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "cross-env NODE_NO_WARNINGS=1 node --env-file=.env --watch-path=./src ./src/server.js",
+    "start-render": "run-s start-render:*",
+    "start-render:setup": "node ./src/setup.js",
+    "start-render:server": "node ./src/server.js",
     "start": "run-s start:*",
     "start:setup": "node --env-file=.env ./src/setup.js",
     "start:server": "node --env-file=.env ./src/server.js",
