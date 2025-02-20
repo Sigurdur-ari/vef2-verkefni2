@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
 
   const categories = result?.rows ?? [];
 
-  res.render('index', { title: 'Forsíða', categories });
+  res.render('index', { title: 'Vefforritunar Spurningar', categories });
 });
 
 
@@ -34,8 +34,12 @@ router.get('/spurningar/:category', async (req, res) => {
 
   const answers = answersResult?.rows ?? [];
 
+  const catNameRes = await getDatabase()?.query('SELECT name FROM categories WHERE id = $1', [catId]);
+
+  const catName = catNameRes?.rows ?? [];
+
   //Renderar view sem filterar svör eftir spurningum og birtir. 
-  res.render('category', { catId, questions, answers});
+  res.render('category', { title: catName[0].name, catId, questions, answers});
 });
 
 
